@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Post;
 use Illuminate\Http\Request;
+use App\Category;
+use Illuminate\Validation\Rule;
 
 class PostsController extends Controller
 {
@@ -24,7 +26,9 @@ class PostsController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::all();
+        
+        return view('admin.posts.create', compact('categories'));
     }
 
     /**
@@ -35,7 +39,23 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'title'         => 'required',
+            'body'          => 'required',
+            'category_id'   => ['required','numeric', Rule::exists('categories', 'id')],
+            'image'         => 'required|image',
+        ]);
+
+        
+
+        Post::create([
+            'title'         => $request->title,
+            'body'          => $request->body,
+            'category_id'   => $request->category_id,
+            'image'         => $request->file('image')->store('posts', 'public'),
+        ]);
+
+        return back();
     }
 
     /**

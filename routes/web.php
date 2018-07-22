@@ -18,3 +18,11 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::middleware('auth')->prefix('/admin')->name('admin.')->group(function () {
+    // Dashboard Routes 
+    Route::get('/dashboard', 'HomeController@index')->name('home');
+
+    // Posts Routes 
+    Route::resource('posts', 'PostsController');
+});
