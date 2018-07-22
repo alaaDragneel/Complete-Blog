@@ -23,6 +23,7 @@
 <body>
     <div id="app">
         @include('layouts.nav')
+        @include('flash::message')
         <main class="py-4">
             <div class="container">
                 <div class="row">

@@ -23,6 +23,9 @@ Route::middleware('auth')->prefix('/admin')->name('admin.')->group(function () {
     // Dashboard Routes 
     Route::get('/dashboard', 'HomeController@index')->name('home');
 
+    // Categories Routes 
+    Route::resource('categories', 'CategoriesController');
+    
     // Posts Routes 
     Route::resource('posts', 'PostsController');
 });

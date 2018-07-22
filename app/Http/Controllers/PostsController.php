@@ -55,6 +55,8 @@ class PostsController extends Controller
             'image'         => $request->file('image')->store('posts', 'public'),
         ]);
 
+        flash('Post Was Created Successfully')->success()->important();
+
         return back();
     }
 
