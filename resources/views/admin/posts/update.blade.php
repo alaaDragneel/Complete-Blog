@@ -2,13 +2,14 @@
 
 @section('content')
 <div class="card">
-    <div class="card-header">Create New Post</div>
+    <div class="card-header">Update Post:  {{ $post->title }}</div>
     <div class="card-body">
-        <form action="{{ route('admin.posts.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('admin.posts.update', $post) }}" method="POST" enctype="multipart/form-data">
             @csrf
+            @method('PATCH')
             <div class="form-group">
                 <label for="title">Title</label>
-                <input type="text" class="form-control {{ $errors->has('title') ? 'is-invalid' : '' }}" value="{{ old('title') }}" id="title" name="title" placeholder="Write Post Title..." required/>
+                <input type="text" class="form-control {{ $errors->has('title') ? 'is-invalid' : '' }}" value="{{ $post->title }}" id="title" name="title" placeholder="Write Post Title..." required/>
 
                 @if ($errors->has('title'))
                     <div class="invalid-feedback" role="alert">
@@ -18,7 +19,7 @@
             </div>
             <div class="form-group">
                 <label for="body">Body</label>
-                <textarea class="form-control {{ $errors->has('body') ? 'is-invalid' : '' }}" id="body" name="body" placeholder="Write Post Body..." rows="8" required >{{ old('body') }}</textarea>
+                <textarea class="form-control {{ $errors->has('body') ? 'is-invalid' : '' }}" id="body" name="body" placeholder="Write Post Body..." rows="8" required >{{ $post->body }}</textarea>
             
                 @if ($errors->has('body'))
                     <div class="invalid-feedback" role="alert">
@@ -31,7 +32,7 @@
                 <select class="form-control {{ $errors->has('category_id') ? 'is-invalid' : '' }}" id="category" name="category_id" required>
                     <option value="" selected disabled>Select Post Category</option>
                     @foreach ($categories as $category)
-                        <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+                        <option value="{{ $category->id }}" {{ $post->category_id == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
                     @endforeach
                 </select>
 
@@ -43,7 +44,7 @@
             </div>
             <div class="form-group">
                 <label for="image">image</label>
-                <input type="file" class="form-control {{ $errors->has('image') ? 'is-invalid' : '' }}" value="{{ old('image') }}" id="image" name="image" required/>
+                <input type="file" class="form-control {{ $errors->has('image') ? 'is-invalid' : '' }}" value="{{ old('image') }}" id="image" name="image" />
 
                 @if ($errors->has('image'))
                     <div class="invalid-feedback" role="alert">
@@ -52,8 +53,11 @@
                 @endif
             </div>
             <div class="form-group">
+                <img src="{{ $post->image }}" alt="{{ $post->title }}" title="{{ $post->title }}" class="img-thumbnail" style="width: 688px; height: 370px;">
+            </div>
+            <div class="form-group">
                 <div class="text-center">
-                    <button class="btn btn-success" type="submit">Create Post</button>
+                    <button class="btn btn-success" type="submit">Update Post</button>
                 </div>
             </div>
         </form>

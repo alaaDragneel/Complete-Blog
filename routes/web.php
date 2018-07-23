@@ -21,11 +21,14 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::middleware('auth')->prefix('/admin')->name('admin.')->group(function () {
     // Dashboard Routes 
-    Route::get('/dashboard', 'HomeController@index')->name('home');
+    Route::get('/dashboard', 'HomeController@index')->name('dashboard');
 
     // Categories Routes 
     Route::resource('categories', 'CategoriesController');
     
     // Posts Routes 
+    Route::get('/posts/trashed', 'PostsController@trashed')->name('posts.trashed');
+    Route::patch('/posts/{post}/restore', 'PostsController@restore')->name('posts.restore');
+    Route::delete('/posts/{post}/force-destroy', 'PostsController@forceDestroy')->name('posts.force-destroy');
     Route::resource('posts', 'PostsController');
 });
