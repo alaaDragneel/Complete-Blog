@@ -22,7 +22,7 @@ class Post extends Model
     
     protected $dates = ['deleted_at'];
 
-    protected $with = ['category'];
+    protected $with = ['category', 'tags'];
 
     public function category()
     {
@@ -44,5 +44,10 @@ class Post extends Model
         }
 
         $this->attributes['slug'] = $slug;
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'post_tags', 'post_id', 'tag_id')->withTimestamps();
     }
 }

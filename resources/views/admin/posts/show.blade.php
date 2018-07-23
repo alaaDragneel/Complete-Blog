@@ -6,9 +6,19 @@
         <div>
             Show Post:  {{ $post->title }}
         </div>
-        <div>
-            <a href="{{ route('admin.posts.edit', $post) }}" class="btn btn-primary btn-sm">Edit</a>
-            <a href="{{ route('admin.posts.destroy', $post) }}" class="btn btn-danger btn-sm">Trash</a>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <a href="{{ route('admin.posts.edit', $post) }}" class="btn btn-primary btn-sm" style="margin-right: 1em;">Edit</a>
+            @if($post->trashed())
+               <form action="{{ route('admin.posts.restore', $post) }}" method="POST">
+                    @csrf @method('PATCH')
+                    <button type="submit" class="btn btn-sm btn-success">Restore</button>
+                </form>
+            @else
+                <form action="{{ route('admin.posts.destroy', $post) }}" method="POST">
+                    @csrf @method('DELETE')
+                    <button type="submit" class="btn btn-sm btn-danger">Trash</button>
+                </form>
+            @endif
         </div>
     </div>
     <div class="card-body">
@@ -25,6 +35,20 @@
                     @else
                         No Category Found
                     @endif
+                <hr>
+            </div>   
+            
+            <div class="col-md-12">
+                <strong>Tags</strong>: 
+                @forelse ($post->tags as $tag)
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <a href="{{ route('admin.tags.show', $tag) }}">{{ $tag->name }}</a>
+                        </li>
+                    </ul>
+                @empty
+                    No Tags Found
+                @endforelse
                 <hr>
             </div>   
             

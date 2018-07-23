@@ -25,6 +25,9 @@ Route::middleware('auth')->prefix('/admin')->name('admin.')->group(function () {
 
     // Categories Routes 
     Route::resource('categories', 'CategoriesController');
+
+    // Tags Routes 
+    Route::resource('tags', 'TagsController');
     
     // Posts Routes 
     Route::get('/posts/trashed', 'PostsController@trashed')->name('posts.trashed');

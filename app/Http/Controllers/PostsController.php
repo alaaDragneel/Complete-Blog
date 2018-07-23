@@ -8,6 +8,7 @@ use App\Category;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use App\Tag;
 
 class PostsController extends Controller
 {
@@ -38,6 +39,7 @@ class PostsController extends Controller
     public function create()
     {
         $categories = Category::all();
+        $tags = Tag::all();
 
         if($categories->count() == 0) {
             flash('No Categories Found To Add it To The Post')->error()->important(); 
@@ -45,7 +47,7 @@ class PostsController extends Controller
             return back(); 
         }
 
-        return view('admin.posts.create', compact('categories'));
+        return view('admin.posts.create', compact('categories', 'tags'));
     }
 
     /**
@@ -61,20 +63,22 @@ class PostsController extends Controller
             'body'          => 'required',
             'category_id'   => ['required','numeric', Rule::exists('categories', 'id')],
             'image'         => 'required|image',
+            'tags'          => 'required|array',
+            'tags.*'        =>  'required|integer'
         ]);
 
-        
-
-        Post::create([
+        $post = Post::create([
             'title'         => $request->title,
             'body'          => $request->body,
             'category_id'   => $request->category_id,
             'image'         => $request->file('image')->store('posts', 'public'),
         ]);
 
+        $post->tags()->attach($request->tags);
+
         flash('Post Was Created Successfully')->success()->important();
 
-        return redirect()->route('admin.posts.show');
+        return redirect()->route('admin.posts.show', $post);
     }
 
     /**
@@ -99,8 +103,11 @@ class PostsController extends Controller
     public function edit($id)
     {
         $categories = Category::all();
+        $tags = Tag::all();
 
         $post = Post::withTrashed()->findOrFail($id);
+
+        $postTags = $post->tags->pluck('id')->toArray();
 
         if ($categories->count() == 0) {
             flash('No Categories Found To Update it To The Post')->error()->important();
@@ -108,7 +115,7 @@ class PostsController extends Controller
             return back();
         }
 
-        return view('admin.posts.update', compact('post', 'categories'));
+        return view('admin.posts.update', compact('post', 'categories', 'tags', 'postTags'));
     }
 
     /**
@@ -121,10 +128,12 @@ class PostsController extends Controller
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-            'title' => 'required',
-            'body' => 'required',
-            'category_id' => ['required', 'numeric', Rule::exists('categories', 'id')],
-            'image' => 'sometimes|nullable|image',
+            'title'         => 'required',
+            'body'          => 'required',
+            'category_id'   => ['required', 'numeric', Rule::exists('categories', 'id')],
+            'image'         => 'sometimes|nullable|image',
+            'tags'          => 'required|array',
+            'tags.*'        =>  'required|integer'
         ]);
 
         $post = Post::withTrashed()->findOrFail($id);
@@ -135,18 +144,11 @@ class PostsController extends Controller
             'title' => $title,
             'body' => $request->body,
             'category_id' => $request->category_id,
-            'slug' => $title,
+            'slug' => $title, // Will Updated With Mutator
         ];
 
         if ($request->hasFile('image')) {
-            $imagePath = public_path(str_after($post->image, $request->server('HTTP_ORIGIN')));
-            
-            $fileExits = File::exists($imagePath);
-            $isValidFile = File::isFile($imagePath);
-            
-            if ($fileExits && $isValidFile) {
-                File::delete($imagePath);
-            }
+            $this->deleteOldImage($post, $request);
 
             $updatedData['image'] = $request->file('image')->store('posts', 'public');
         }
@@ -154,11 +156,25 @@ class PostsController extends Controller
 
         $post->update($updatedData);
 
+        $post->tags()->sync($request->tags);
+
         flash('Post Was Updated Successfully')->success()->important();
 
-        return redirect()->route('admin.posts.show');
+
+        return redirect()->route('admin.posts.show', $post);
     }
 
+    protected function deleteOldImage($post, $request)
+    {
+        $imagePath = public_path(str_after($post->image, $request->server('HTTP_ORIGIN')));
+
+        $fileExits = File::exists($imagePath);
+        $isValidFile = File::isFile($imagePath);
+
+        if ($fileExits && $isValidFile) {
+            File::delete($imagePath);
+        }
+    }
     /**
      * Remove the specified resource from storage.
      *
@@ -188,6 +204,8 @@ class PostsController extends Controller
     public function forceDestroy($id)
     {
         $post = Post::onlyTrashed()->findOrFail($id);
+
+        $post->tags()->detach();
 
         $post->forceDelete();
 

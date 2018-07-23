@@ -43,6 +43,17 @@
                 @endif
             </div>
             <div class="form-group">
+                <label for="tags">Select Tags</label>
+                @foreach ($tags as $tag)
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="{{ $tag->id }}" {{ in_array($tag->id, $postTags) ? 'checked' : '' }} name="tags[]">
+                        <label class="form-check-label">
+                            {{ $tag->name }}
+                        </label>
+                    </div>
+                @endforeach
+            </div>
+            <div class="form-group">
                 <label for="image">image</label>
                 <input type="file" class="form-control {{ $errors->has('image') ? 'is-invalid' : '' }}" value="{{ old('image') }}" id="image" name="image" />
 
