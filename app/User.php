@@ -9,15 +9,24 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($user) {
+            $user->profile()->delete();
+        });
+    }
+
     protected $with = ['profile'];
-    
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password'
+        'name', 'email', 'password', 'admin',
     ];
 
     protected $casts = ['admin' => 'boolean'];
@@ -34,5 +43,15 @@ class User extends Authenticatable
     public function profile()
     {
         return $this->hasOne(Profile::class, 'user_id');
+    }
+
+    public function beAdmin()
+    {
+        $this->update(['admin' => true]);
+    }
+    
+    public function revokeAdmin()
+    {
+        $this->update(['admin' => false]);
     }
 }

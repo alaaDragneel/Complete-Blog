@@ -28,6 +28,11 @@ Route::middleware('auth')->prefix('/admin')->name('admin.')->group(function () {
 
     // Tags Routes 
     Route::resource('tags', 'TagsController');
+
+    // Users Routes 
+    Route::patch('/users/{user}/make-as-admin', 'UsersController@makeAsAdmin')->name('users.make-as-admin');
+    Route::patch('/users/{user}/revoke-permissions', 'UsersController@revokePermissions')->name('users.revoke-permissions');
+    Route::resource('users', 'UsersController');
     
     // Posts Routes 
     Route::get('/posts/trashed', 'PostsController@trashed')->name('posts.trashed');

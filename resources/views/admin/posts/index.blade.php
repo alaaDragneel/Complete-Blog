@@ -22,7 +22,7 @@
                             <a href="{{ route('admin.posts.show', $post) }}">{{ $post->title }}</a>
                         </td>
                         <td>
-                            <img src="{{ $post->image }}" alt="{{ $post->title }}" title="{{ $post->title }}" width="90" height="50" defer/>
+                            <img src="{{ $post->image }}" alt="{{ $post->title }}" title="{{ $post->title }}" width="90" height="50"  />
                         </td>
                         <td>
                             <a href="{{ route('admin.posts.edit', $post) }}" class="btn btn-primary">Edit</a>

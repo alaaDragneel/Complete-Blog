@@ -5,6 +5,14 @@
             home
         </a>
     </li>
+    @if(auth()->user()->admin)
+        <li class="list-group-item">
+            <a href="{{ route('admin.users.index') }}">
+                <i class="fas fa-users"></i>
+                Users
+            </a>
+        </li>
+    @endif
     <li class="list-group-item">
         <a href="{{ route('admin.categories.index') }}">
             <i class="fas fa-tag"></i>
@@ -27,6 +35,12 @@
         <a href="{{ route('admin.posts.trashed') }}">
             <i class="fas fa-trash"></i>
             Trashed Posts
+        </a>
+    </li>
+    <li class="list-group-item">
+        <a href="{{ route('admin.users.create') }}">
+            <i class="fas fa-plus"></i>
+            Create Users
         </a>
     </li>
     <li class="list-group-item">
