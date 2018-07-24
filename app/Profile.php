@@ -12,4 +12,10 @@ class Profile extends Model
     {
         $this->belongsTo(User::class);
     }
+
+    public function getAvatarAttribute($avatar)
+    {
+
+        return starts_with($avatar, 'http') ? $avatar : asset("storage/{$avatar}");
+    }
 }

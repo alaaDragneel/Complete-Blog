@@ -11,6 +11,7 @@
                 <tr>
                     <th>Title</th>
                     <th>Image</th>
+                    <th>Category</th>
                     <th>Edit</th>
                     <th>Trash</th>
                 </tr>
@@ -23,6 +24,9 @@
                         </td>
                         <td>
                             <img src="{{ $post->image }}" alt="{{ $post->title }}" title="{{ $post->title }}" width="90" height="50"  />
+                        </td>
+                        <td>
+                            <a href="{{ route('admin.categories.show', $post->category) }}">{{ $post->category->name }}</a>
                         </td>
                         <td>
                             <a href="{{ route('admin.posts.edit', $post) }}" class="btn btn-primary">Edit</a>

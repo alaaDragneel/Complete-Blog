@@ -53,7 +53,7 @@
             </div>   
             
             <div class="col-md-12">
-                <strong>Body</strong>: {{ $post->body }}
+                <strong>Body</strong>: <div id="body">{!! $post->body !!}</div>
                 <hr>
             </div>   
             

@@ -5,7 +5,19 @@
             home
         </a>
     </li>
+    <li class="list-group-item">
+        <a href="{{ route('admin.users.profile') }}">
+            <i class="fas fa-user"></i>
+            Profile
+        </a>
+    </li>
     @if(auth()->user()->admin)
+        <li class="list-group-item">
+            <a href="{{ route('admin.settings.index') }}">
+                <i class="fas fa-cogs"></i>
+                Settings
+            </a>
+        </li>    
         <li class="list-group-item">
             <a href="{{ route('admin.users.index') }}">
                 <i class="fas fa-users"></i>

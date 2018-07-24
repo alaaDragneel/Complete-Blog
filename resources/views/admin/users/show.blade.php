@@ -7,7 +7,7 @@
             Show User:  {{ $user->name }}
         </div>
         <div>
-            @if (! auth()->id() == $user->id)
+            @if ( auth()->id() !== $user->id)
                 <form action="{{ route('admin.users.destroy', $user) }}" method="POST">
                     @csrf @method('DELETE')
                     <button type="submit" class="btn btn-sm btn-danger">Delete</button>

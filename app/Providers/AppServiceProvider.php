@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
+use App\Setting;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -14,6 +15,17 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
+        view()->composer(['layouts.nav'], function ($view) {
+            $settings = cache()->rememberForever('settings', function () {
+                return Setting::first();
+            });
+
+            $view->with('settings', $settings);
+        });
+
+
+
         Schema::defaultStringLength(191);
     }
 

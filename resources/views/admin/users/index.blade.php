@@ -41,16 +41,21 @@
                         <img src="{{ $user->profile->avatar }}" alt="{{ $user->name }}" title="{{ $user->name }}" width="90" height="50" style="border-radius: 50%;" />
                     </td>
                     <td>
-                        <form action="{{ route('admin.users.destroy', $user) }}" method="POST">
-                            @csrf @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-danger">delete</button>
-                        </form>
+                        @if (auth()->id() !== $user->id)
+                            <form action="{{ route('admin.users.destroy', $user) }}" method="POST">
+                                @csrf @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-danger">delete</button>
+                            </form>
+                            
+                        @else
+                            <a href="{{ route('admin.users.profile') }}" class="btn btn-success btn-sm">View Profile</a>
+                        @endif
                     </td>
                 </tr>
                 @empty
-                <tr>
-                    <td colspan="6"> No Users Right Now!</td>
-                </tr>
+                    <tr>
+                        <td colspan="6"> No Users Right Now!</td>
+                    </tr>
                 @endforelse
             </tbody>
         </table>

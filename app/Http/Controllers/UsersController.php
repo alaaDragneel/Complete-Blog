@@ -54,7 +54,7 @@ class UsersController extends Controller
         ]);
 
         $user->profile()->create([
-            'avatar' => '/storage/avatars/danganronpa2.png',
+            'avatar' => '/avatars/danganronpa2.png',
         ]);
 
         flash('User Created Successfully')->success()->important();

@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('styles')
+    <link href="{{ asset('css/summernote-bs4.css') }}" rel="stylesheet">
+@endsection
+
 @section('content')
 <div class="card">
     <div class="card-header">Update Post:  {{ $post->title }}</div>
@@ -74,4 +78,26 @@
         </form>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+    <script src="{{ asset('js/summernote-bs4.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#body').summernote({ 
+                 toolbar: [
+                    // [groupName, [list of button]]
+                    ['style', ['style', 'bold', 'italic', 'underline', 'clear']],
+                    ['font', ['strikethrough', 'superscript', 'subscript']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['height', ['height']]
+                ],
+                placeholder: 'Write Your Post Body', 
+                tabsize: 2, 
+                height: 200 ,
+            });
+        });
+    </script>
 @endsection

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Category;
 
 class CategoryTableSeeder extends Seeder
 {
@@ -11,6 +12,7 @@ class CategoryTableSeeder extends Seeder
      */
     public function run()
     {
+        Category::truncate();
         factory('App\Category', 3)->create();
     }
 }

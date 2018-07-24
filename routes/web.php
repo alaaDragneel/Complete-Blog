@@ -29,7 +29,13 @@ Route::middleware('auth')->prefix('/admin')->name('admin.')->group(function () {
     // Tags Routes 
     Route::resource('tags', 'TagsController');
 
+    // Settings Routes 
+    Route::get('settings/show', 'SettingsController@index')->name('settings.index');
+    Route::patch('settings/update', 'SettingsController@update')->name('settings.update');
+    
     // Users Routes 
+    Route::get('users/profile', 'ProfilesController@index')->name('users.profile');
+    Route::patch('users/profile', 'ProfilesController@update')->name('users.save-profile');
     Route::patch('/users/{user}/make-as-admin', 'UsersController@makeAsAdmin')->name('users.make-as-admin');
     Route::patch('/users/{user}/revoke-permissions', 'UsersController@revokePermissions')->name('users.revoke-permissions');
     Route::resource('users', 'UsersController');

@@ -41,8 +41,8 @@ class PostsController extends Controller
         $categories = Category::all();
         $tags = Tag::all();
 
-        if($categories->count() == 0) {
-            flash('No Categories Found To Add it To The Post')->error()->important(); 
+        if($categories->count() == 0 || $tags->count() == 0) {
+            flash('Categories Or Tags Not Found To Add it To The Post Please Go And Add Some Of Theme')->error()->important(); 
             
             return back(); 
         }
@@ -175,6 +175,7 @@ class PostsController extends Controller
             File::delete($imagePath);
         }
     }
+    
     /**
      * Remove the specified resource from storage.
      *
