@@ -29,6 +29,17 @@
                     </div>
                 @endif
             </div>
+          
+            <div class="form-group">
+                <label for="about">about</label>
+                <textarea class="form-control {{ $errors->has('about') ? 'is-invalid' : '' }}" id="about" name="about" placeholder="Write Site Description..." rows="8" required>{{ $setting->about }} </textarea>
+
+                @if ($errors->has('about'))
+                    <div class="invalid-feedback" role="alert">
+                        <strong>{{ $errors->first('about') }}</strong>
+                    </div>
+                @endif
+            </div>
 
             <div class="form-group">
                 <label for="contact_number">Site Contact Number</label>

@@ -18,6 +18,7 @@ class SettingsTableSeeder extends Seeder
             'contact_number'    => '01096901954',
             'contact_email'     => 'moaalaa16@gmail.com',
             'address'           => 'Imbaba, Giza, Cairo',
+            'about'             => 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ab itaque eius recusandae veniam dolor vero, optio impedit, ipsum ipsa unde illum omnis maxime assumenda accusantium alias hic. Autem, dignissimos repudiandae!',
         ]);
     }
 }

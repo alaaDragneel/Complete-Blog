@@ -41,6 +41,8 @@ class CategoriesController extends Controller
 
         $category = Category::create($validated);
 
+        cache()->forget(Category::CACHE_KEY);
+
         flash('Category Was Created Successfully')->success()->important();
         
         return redirect()->route('admin.categories.show', $category);
@@ -80,6 +82,8 @@ class CategoriesController extends Controller
         $validated = $request->validate(['name' => 'required']);
 
         $category->update($validated);
+        
+        cache()->forget(Category::CACHE_KEY);
 
         flash('Category Was Updated Successfully')->success()->important();
 

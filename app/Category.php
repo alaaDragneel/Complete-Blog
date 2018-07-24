@@ -16,6 +16,8 @@ class Category extends Model
     }
 
     protected $fillable = ['name'];
+
+    public const CACHE_KEY = 'categories';
     
     public function posts()
     {

@@ -12,6 +12,7 @@ class SettingsController extends Controller
         'contact_number' => '01096901954',
         'contact_email' => 'moaalaa16@gmail.com',
         'address' => 'Imbaba, Giza, Cairo',
+        'about' => 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ab itaque eius recusandae veniam dolor vero, optio impedit, ipsum ipsa unde illum omnis maxime assumenda accusantium alias hic. Autem, dignissimos repudiandae!',
     ];
 
     protected $searchBy = ['id' => 1];
@@ -31,10 +32,13 @@ class SettingsController extends Controller
             'site_name'         => 'required',
             'contact_email'     => 'required|email',
             'contact_number'    => 'required|numeric',
-            'address'    => 'required',
+            'address'           => 'required',
+            'about'             => 'required',
         ]);
         
         Setting::updateOrCreate($this->searchBy, $validated);
+
+        cache()->forget(Setting::CACHE_KEY);
 
         flash('Settings Updated Successfully')->success()->important();
             
