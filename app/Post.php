@@ -18,15 +18,20 @@ class Post extends Model
         });
     }
 
-    protected $fillable = ['title', 'body', 'image', 'category_id', 'slug'];
+    protected $fillable = ['title', 'body', 'image', 'category_id', 'slug', 'user_id'];
     
     protected $dates = ['deleted_at'];
 
-    protected $with = ['category', 'tags'];
+    protected $with = ['category', 'tags', 'owner'];
 
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id');
+    }
+
+    public function owner()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function getImageAttribute($image)
@@ -39,7 +44,7 @@ class Post extends Model
     {
         $slug = str_slug($value, '-', app()->getLocale());
         
-        while (static::where('slug', $slug)->exists()) {
+        while (static::where('id', '!=', $this->id)->where('slug', $slug)->exists()) {
             $slug = "{$slug}-{$this->id}";
         }
 

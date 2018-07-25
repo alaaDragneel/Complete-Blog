@@ -19,6 +19,7 @@ class CreatePostsTable extends Migration
             $table->string('slug')->nullable();
             $table->text('body');
             $table->unsignedInteger('category_id');
+            $table->unsignedInteger('user_id');
             $table->string('image');
             $table->timestamps();
             $table->softDeletes();

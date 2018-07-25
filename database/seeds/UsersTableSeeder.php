@@ -23,7 +23,7 @@ class UsersTableSeeder extends Seeder
         ]);
 
         $user->profile()->create([
-            'avatar'    => '/storage/avatars/danganronpa2.png',
+            'avatar'    => '/avatars/danganronpa2.png',
             'about'     => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita, natus rem. Similique vel error quos iure officia dolorum ullam? Recusandae, placeat corrupti nam delectus quis officiis vitae quos aliquam earum.',
             'facebook'  => 'https://www.facebook.com/alaaDragneel',
             'youtube'   => 'https://www.youtube.com/channel/UCXs1efwvDPsTkqxVAp7imYw' 

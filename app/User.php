@@ -54,4 +54,14 @@ class User extends Authenticatable
     {
         $this->update(['admin' => false]);
     }
+
+    public function scopeAdmin($query)
+    {
+        return $query->where('admin', true);
+    }
+    
+    public function scopeNotAdmin($query)
+    {
+        return $query->where('admin', false);
+    }
 }

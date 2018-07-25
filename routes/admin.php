@@ -13,7 +13,8 @@
 
 Route::middleware('auth')->prefix('/admin')->name('admin.')->group(function () {
     // Dashboard Routes 
-    Route::get('/dashboard', 'HomeController@index')->name('dashboard');
+    Route::get('/', 'DashboardController@index')->name('dashboard');
+    Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 
     // Categories Routes 
     Route::resource('categories', 'CategoriesController');
